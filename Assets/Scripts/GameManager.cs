@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
 
             if (timer >= 30f)
             {
-                second = second / 1.33f;
+                second = second / 1.25f;
                 timer = 0f;
             }
         }

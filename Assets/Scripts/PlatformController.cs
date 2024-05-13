@@ -30,11 +30,25 @@ public class PlatformController : MonoBehaviour
 
     void Update()
     {
+        if (OVRInput.GetDown(OVRInput.Button.Two) && clickCount > 0 && !isStarted) 
+        {
+            slides[clickCount].SetActive(false);
+
+            clickCount -= 1;
+
+            slides[clickCount].SetActive(true);
+        }
+
         if (OVRInput.GetDown(OVRInput.Button.One) && !isStarted)
         {
             slides[clickCount].SetActive(false);
 
             clickCount += 1;
+
+            if (clickCount == 2)
+            {
+                startPlatform.SetActive(true);
+            }
 
             if (clickCount <= 6)
             {
