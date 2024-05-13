@@ -9,25 +9,24 @@ public class ButtonPress : MonoBehaviour
 
     void Update()
     {
-        if (platformController.isStarted)
+        if (platformController.isStarted && platformController.clickCount >= 9)
         {
-            if (OVRInput.GetDown(OVRInput.RawButton.A) && platformController.isStarted)
+            if (OVRInput.GetDown(OVRInput.RawButton.A))
             {
-                platformController.clickCount += 1;
-                gameManager.OnClick(0);
+                gameManager.OnClick();
             }
-            else if (OVRInput.GetDown(OVRInput.RawButton.B) && platformController.isStarted)
-            {
-                gameManager.OnClick(1);
-            }
-            else if (OVRInput.GetDown(OVRInput.RawButton.X) && platformController.isStarted)
-            {
-                gameManager.OnClick(2);
-            }
-            else if (OVRInput.GetDown(OVRInput.RawButton.Y) && platformController.isStarted)
-            {
-                gameManager.OnClick(3);
-            }
+            //else if (OVRInput.GetDown(OVRInput.RawButton.B) && platformController.isStarted)
+            //{
+            //    gameManager.OnClick(1);
+            //}
+            //else if (OVRInput.GetDown(OVRInput.RawButton.X) && platformController.isStarted)
+            //{
+            //    gameManager.OnClick(2);
+            //}
+            //else if (OVRInput.GetDown(OVRInput.RawButton.Y) && platformController.isStarted)
+            //{
+            //    gameManager.OnClick(3);
+            //}
         }
     }
 }

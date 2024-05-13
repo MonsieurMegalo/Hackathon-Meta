@@ -6,34 +6,72 @@ public class GameManager : MonoBehaviour
 {
     public Material goodMaterial;
     public Material badMaterial;
-    public CommandController commandController;
+    //public CommandController commandController;
     public PlatformController platformController;
-    public int life = 5;
+    //public int life = 5;
+    public float second;
 
-    private int score;
+    //private int score;
+    private float timer;
+    //private bool player1;
+    private bool player2;
 
-    public void OnClick(int button)
+    private void Start()
     {
-        if (platformController.isStarted && platformController.clickCount >= 1)
+        timer = 0f;
+
+    }
+
+    public void OnClick()
+    {
+        if (platformController.isStarted)
         {
-            if (button == commandController.newCommand)
+            //player1 = platformController.platform1.GetComponent<PositionDetector>().playerPos;
+            player2 = platformController.platform2.GetComponent<PositionDetector>().playerPos;
+
+            if (player2)
             {
-                score += 1;
+                //score += 1;
                 platformController.platform1.GetComponent<MeshRenderer>().material = goodMaterial;
                 platformController.platform2.GetComponent<MeshRenderer>().material = goodMaterial;
             }
 
-            else if (button != commandController.newCommand)
+            else if (!player2)
             {
-                life -= 1;
+                //life -= 1;
                 platformController.platform1.GetComponent<MeshRenderer>().material = badMaterial;
                 platformController.platform2.GetComponent<MeshRenderer>().material = badMaterial;
             }
+
+            //if (button == commandController.newCommand)
+            //{
+            //    //score += 1;
+            //    platformController.platform1.GetComponent<MeshRenderer>().material = goodMaterial;
+            //    platformController.platform2.GetComponent<MeshRenderer>().material = goodMaterial;
+            //}
+
+            //else if (button != commandController.newCommand)
+            //{
+            //    //life -= 1;
+            //    platformController.platform1.GetComponent<MeshRenderer>().material = badMaterial;
+            //    platformController.platform2.GetComponent<MeshRenderer>().material = badMaterial;
+            //}
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        if (platformController.isStarted)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= 30f)
+            {
+                second = second / 1.33f;
+                timer = 0f;
+            }
+        }
+
         //if (platformController.isStarted)
         //{
         //    if (life <= 0)

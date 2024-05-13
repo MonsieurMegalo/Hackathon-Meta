@@ -8,8 +8,7 @@ public class PlatformController : MonoBehaviour
     public GameObject[] platforms;
     public Material materialOne;
     public Material materialTwo;
-    public float second;
-    public CommandController commandController;
+    //public CommandController commandController;
     public GameManager gameManager;
     public GameObject platform1;
     public GameObject platform2;
@@ -17,16 +16,13 @@ public class PlatformController : MonoBehaviour
     public int clickCount;
     //public GameObject soundMachine;
 
-    private float timer;
     private GameObject previous1;
     private GameObject previous2;
     //private AudioSource music;
 
     private void Start()
     {
-        second = 3f;
         isStarted = false;
-        timer = 0f;
         clickCount = 0;
         //music = soundMachine.GetComponent<AudioSource>();
     }
@@ -35,15 +31,22 @@ public class PlatformController : MonoBehaviour
     {
         if (OVRInput.GetDown(OVRInput.Button.One) && !isStarted)
         {
-            //music.Play();
-            startPlatform.SetActive(false);
-            isStarted = true;
-            StartCoroutine(SpawnPlatform());
-        }
+            clickCount += 1;
 
-        if (isStarted)
+            if (clickCount == 7)
+            {
+                //music.Play();
+                startPlatform.SetActive(false);
+                isStarted = true;
+                StartCoroutine(SpawnPlatform());
+            }
+        }
+        else if (OVRInput.GetDown(OVRInput.Button.One) && isStarted)
         {
-            timer += Time.deltaTime;
+            if (clickCount >= 7)
+            {
+                gameManager.OnClick();
+            }
         }
     }
 
@@ -56,12 +59,6 @@ public class PlatformController : MonoBehaviour
     {
         while (true)
         {
-            if (timer >= 30f)
-            {
-                second = second/1.33f;
-                timer = 0f;
-            }
-
             platform1 = platforms[Random.Range(0, platforms.Length)];
             platform2 = platforms[Random.Range(0, platforms.Length)];
 
@@ -85,7 +82,7 @@ public class PlatformController : MonoBehaviour
             platform1.SetActive(true);
             platform2.SetActive(true);
 
-            yield return new WaitForSeconds(second);
+            yield return new WaitForSeconds(gameManager.second);
 
             previous1 = platform1;
             previous2 = platform2;
@@ -97,7 +94,7 @@ public class PlatformController : MonoBehaviour
 
             platform1.SetActive(false);
             platform2.SetActive(false);
-            commandController.ChangeCommand();
+            //commandController.ChangeCommand();
         }
     }
 }
