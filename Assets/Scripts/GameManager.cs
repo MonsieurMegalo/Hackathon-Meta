@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
                 //score += 1;
                 platformController.platform1.GetComponent<MeshRenderer>().material = goodMaterial;
                 platformController.platform2.GetComponent<MeshRenderer>().material = goodMaterial;
+                StartCoroutine(TriggerHapticsRoutine(true));
             }
 
             else if (!player2)
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
                 //life -= 1;
                 platformController.platform1.GetComponent<MeshRenderer>().material = badMaterial;
                 platformController.platform2.GetComponent<MeshRenderer>().material = badMaterial;
+                StartCoroutine(TriggerHapticsRoutine(false));
             }
 
             //if (button == commandController.newCommand)
@@ -57,6 +59,23 @@ public class GameManager : MonoBehaviour
             //    platformController.platform2.GetComponent<MeshRenderer>().material = badMaterial;
             //}
         }
+    }
+
+    public IEnumerator TriggerHapticsRoutine(bool state)
+    {
+        if (state)
+        {
+            OVRInput.SetControllerVibration(1f, 1f, OVRInput.Controller.RTouch);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        if (!state)
+        {
+            OVRInput.SetControllerVibration(1f, 1f, OVRInput.Controller.RTouch);
+            yield return new WaitForSeconds(1.2f);
+        }
+
+        OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
     }
 
     private void FixedUpdate()

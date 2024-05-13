@@ -15,6 +15,7 @@ public class PlatformController : MonoBehaviour
     public bool isStarted;
     public int clickCount;
     //public GameObject soundMachine;
+    public GameObject[] slides;
 
     private GameObject previous1;
     private GameObject previous2;
@@ -31,9 +32,16 @@ public class PlatformController : MonoBehaviour
     {
         if (OVRInput.GetDown(OVRInput.Button.One) && !isStarted)
         {
+            slides[clickCount].SetActive(false);
+
             clickCount += 1;
 
-            if (clickCount == 7)
+            if (clickCount <= 6)
+            {
+                slides[clickCount].SetActive(true);
+            }
+
+            else if (clickCount == 7)
             {
                 //music.Play();
                 startPlatform.SetActive(false);
